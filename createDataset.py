@@ -1,8 +1,7 @@
 from openai import OpenAI
-import configparser
 
 def get_completion_from_messages(messages,
-                                 model="gpt-3.5-turbo",
+                                 model="gpt-3.5-turbo-0125",
                                  temperature=0,
                                  max_tokens=500):
     response = client.chat.completions.create(
@@ -14,15 +13,16 @@ def get_completion_from_messages(messages,
     return response.choices[0].message.content
 
 
+client = OpenAI()
+completion = client.chat.completions.create(
+  model="gpt-3.5-turbo",
+  messages=[
+    {"role": "system", "content": "You are a poetic assistant, skilled in explaining complex programming concepts with creative flair."},
+    {"role": "user", "content": "Compose a poem that explains the concept of recursion in programming."}
+  ]
+)
 
-config = configparser.ConfigParser()
-# Read the configuration file
-config.read('config.ini')
+print(completion.choices[0].message)
 
-client = OpenAI(api_key  = config.get('KEYS', 'OPENAI_API_KEY'))
-context = [ {'role':'system', 'content':"""Hello"""} ] 
-prompt = "Hello, is this ChatGPT?"
-context.append({'role':'user', 'content':f"{prompt}"})
-response = get_completion_from_messages(context)
 
-print(response)
+# print(response)
