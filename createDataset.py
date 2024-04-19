@@ -4,7 +4,7 @@ import json
 
 def get_completion_from_messages(messages,
                                  model="gpt-3.5-turbo-0125",
-                                 temperature=.4,
+                                 temperature=.2,
                                  max_tokens=500):
     response = client.chat.completions.create(
         model=model,
@@ -21,6 +21,7 @@ client = OpenAI()
 response =""
 
 for i in range(len(dataset)):
+  response=""
   context = [ {'role':'system', 'content':"""You are a movie critic"""} ] 
   prompt = "Write one response to the review that agrees with it and anotrer one to disagree...." + dataset[i]["text"]
   prompt =prompt + "///output the response in json format with values for review, agree, and disagree"
