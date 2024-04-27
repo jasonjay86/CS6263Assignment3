@@ -19,61 +19,16 @@ from accelerate import Accelerator
 
 import json
 
-def create_llm_prompts(filename, positive_template, negative_template):
-  """
-  Reads data from a JSON file and creates separate LLM training prompts for positive and negative reviews based on templates.
+def formatting_prompts_func(example):
+    output_texts = []
+    for i in range(len(example['review'])):
+        text = f"### Here is a review: {example['review'][i]}\n ### Tell me why you agree with the review: {example['agree'][i]}"
+        output_texts.append(text)
+        text = f"### Here is a review: {example['review'][i]}\n ### Tell me why you disagree with the review: {example['disagree'][i]}"
+        output_texts.append(text)
+    return output_texts
 
-  Args:
-      filename: The path to the JSON file.
-      positive_template: A string template for positive reviews.
-      negative_template: A string template for negative reviews.
-
-  Returns:
-      A tuple containing two lists: positive_prompts and negative_prompts.
-
-  Raises:
-      FileNotFoundError: If the file is not found.
-      json.JSONDecodeError: If the JSON data is invalid.
-  """
-
-
-  positive_prompts = []
-  negative_prompts = []
-  for entry in data:
-    # Check sentiment from "agree" or "disagree" field (adjust based on your data)
-    if "review" in entry:
-      review = entry
-    elif "agree" in entry:
-      filled_template = positive_template.format(**entry)
-      positive_prompts.append(filled_template)
-    elif "disagree" in entry:
-      filled_template = negative_template.format(**entry)
-      negative_prompts.append(filled_template)
-    else:
-      # Handle cases where sentiment is not clear (optional)
-      print(f"Skipping entry: {entry['review']}, sentiment unclear")
-
-  return positive_prompts, negative_prompts
-
-dataset = load_dataset('json', data_files='mydata.json')
-
-print(dataset["review"][0])
-try:
-  filename = "your_file.json"
-  positive_template = "This review praises the film. Review: {review}\nSummarize the positive aspects mentioned in the review and provide your analysis supporting those points."
-  negative_template = "This review criticizes the film. Review: {review}\nSummarize the negative aspects mentioned in the review and provide your analysis addressing those points."
-
-  positive_prompts, negative_prompts = create_llm_prompts(filename, positive_template, negative_template)
-
-  print("Positive Prompts:")
-  for prompt in positive_prompts:
-    print(prompt)
-
-  print("\nNegative Prompts:")
-  for prompt in negative_prompts:
-    print(prompt)
-except (FileNotFoundError, json.JSONDecodeError, ValueError) as e:
-  print(f"Error creating LLM prompts: {e}")
+dataset = load_dataset('csv', data_files='mycsvdata.csv')
 
 accelerator = Accelerator()
 
@@ -112,15 +67,15 @@ model = FastLanguageModel.get_peft_model(
 
 
 # Load the dataset
-dataset = load_dataset("flytech/python-codes-25k", split='train').train_test_split(test_size=.8, train_size=.2)
+# dataset = load_dataset("flytech/python-codes-25k", split='train').train_test_split(test_size=.8, train_size=.2)
 
 # Create the trainer
 trainer = SFTTrainer(
     model = model,
     # train_dataset = dataset,
-    train_dataset=dataset["train"],
-    eval_dataset=dataset["test"],
-    dataset_text_field = "text",
+    train_dataset=dataset['train'],
+    # dataset_text_field = "text",
+    formatting_func=formatting_prompts_func,
     max_seq_length = max_seq_length,
     tokenizer = tokenizer,
     args = TrainingArguments(
@@ -134,6 +89,7 @@ trainer = SFTTrainer(
         output_dir = "outputs",
         optim = "adamw_8bit",
         seed = 1222,
+        num_train_epochs=10
     ),
 )
 
@@ -141,4 +97,4 @@ trainer = SFTTrainer(
 trainer.train()
 
 # Save the trained model
-trainer.save_model("./Llama")
+trainer.save_model("./Llama2b")
