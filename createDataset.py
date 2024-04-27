@@ -1,8 +1,10 @@
 from openai import OpenAI
+from datasets import load_dataset
+import json
 
 def get_completion_from_messages(messages,
                                  model="gpt-3.5-turbo-0125",
-                                 temperature=0,
+                                 temperature=.2,
                                  max_tokens=500):
     response = client.chat.completions.create(
         model=model,
@@ -11,18 +13,22 @@ def get_completion_from_messages(messages,
         max_tokens=max_tokens,
     )
     return response.choices[0].message.content
+dataset = load_dataset("stanfordnlp/imdb", split='train')
 
-
+# review = dataset[16]["text"]
+# print(review)
 client = OpenAI()
-completion = client.chat.completions.create(
-  model="gpt-3.5-turbo",
-  messages=[
-    {"role": "system", "content": "You are a poetic assistant, skilled in explaining complex programming concepts with creative flair."},
-    {"role": "user", "content": "Compose a poem that explains the concept of recursion in programming."}
-  ]
-)
+response =""
 
-print(completion.choices[0].message)
-
-
-# print(response)
+for i in range(len(dataset)):
+  response=""
+  context = [ {'role':'system', 'content':"""You are a movie critic"""} ] 
+  prompt = "Write one response to the review that agrees with it and anotrer one to disagree...." + dataset[i]["text"]
+  prompt =prompt + "///output the response in json format with values for review, agree, and disagree"
+  context.append( {'role':'user', 'content':f"{prompt}"})
+  response = response + get_completion_from_messages(context)
+  if i < len(dataset):
+     response = response + ",\n"
+  f = open("mydata.json", "a")
+  f.write(response)
+  f.close()
