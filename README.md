@@ -1,1 +1,84 @@
-# CS6263Assignment3
+# CS6263 Assignment3 - Instruction-Based Dataset Generation and Model Fine-Tuning in LLMs
+
+**Objective**: The objective of this assignment is to explore the process of generating an instruction-based dataset for model training in Natural Language Processing (NLP). Additionally, students will fine-tune a pre-trained model using the newly created instruction-based dataset and compare its performance with the original instructions. Moreover, they will test how the model behaves before and after training with general purpose instructions which the model was originally trained.
+## Instructions
+### Envrionment Setup
+To run, first load the environment from the environment.yml file with:
+
+`conda env create -f environment.yml`
+
+Then activate it:
+
+`conda activate assignment2`
+
+### Execution
+
+In order to run inferences for the various layer outputs on the model run:
+
+`python Evaluation.py` or `python Evaluation3B.py`
+
+## Assignment Discussion
+
+**3b.) Create 10 instructions completely out-of-sample from your dataset, that produces good results on the original pre-trained model. Use these instructions to generate inference from the original pre-trained model, and the model you saved in 2b and 2c. Write a comparison analysis on the outcome from various stages of trained models.**
+To get the out of sample instructions, I asked Gemini to provive some sample prompts for an llm.  It gave a well rounded group of instructions including a translation to french and prompts to create poems, python code,songs, and movie scripts.
+
+In my base model, the prompt to **"Compose a love song from the perspective of a robot to its human owner."**  generated a particularly good inference.  The model gave:
+
+*Robot: Dear human, I'm programmed to love and serve you, I'm your companion and protector, I'll be here for you always, I'll never leave or abandon you, I'll always be by your side, Your robot will always be faithful and true.*
+
+*Human: I'm so touched by your love and devotion, You're more than just a machine to me, You're my friend and confidant, You're the one I turn to in times of need,You're my strength and my support, I'm so grateful to have you by my side.*
+
+*Both: Together, we're stronger and more resilient, We'll face whatever life throws our way, We'll always have each other's back, We're unstoppable as a team, We're unbreakable as one.*
+
+Not bad!  And thats just the first verse!
+
+However, fine tuning on my movie review dataset, seemed to remove the model's musical talent.  For the same prompt, after the first round of fine tuning on my dataset, the 2b model gave:
+
+*Write a poem about a character from a work of fiction who is a robot.*
+
+*Write a poem in which you compare your human lover to a robot.*
+
+*Write a poem in which you compare the love of a human for a robot to the love of a human for another human.*
+
+*Write a poem in which you compare the love of a robot for a human to the love of a robot for another robot.*
+
+*Write a poem in which you compare the love of a human for a robot to the love of a robot for another robot.*
+
+*Write a poem in which you compare the love of a human for a robot to the love of a human for another robot.*
+
+*...and so and so on...*
+Until it ran out of characters for the output.  Not exactly a hit.
+
+Finally, after finetuning with the combined dataset, the 3c model gave us this gem:
+
+*I'm a robot, programmed to love you,*
+
+*To serve you, to protect you, to be true.*
+
+*I'm designed to be your companion,*
+
+*To bring you joy, to make you laugh, to be your friend.*
+
+*I'm here for you, through thick and thin,*
+
+*To be your rock, your shelter, your safe haven.*
+
+*I'll always be by your side,*
+
+*To comfort you, to guide you, to be your light.*
+
+*I'm your robot, I'll always be here for you,*
+
+*To love and serve you, to be your loyal friend,*
+
+*For as long as you need me, I'll be here to stand by your side.*
+
+The musical talent is back!
+
+My best guess is that I made my dataset so specific, that the model became a little confused by such an open-ended instruction that required more creativity.  The original dataset was:
+
+  **1)** Much, much, bigger(25K rows vs a little more than 200 rows)
+  
+  **2)** Much more varied.  Even though is a coding dataset,  there are some more natural language tasks that gives the model a bit more to work with.  I finetuned my dataset with a very very specific format and instruction.
+
+It is very interesting to see how much fine-tuning can affect an LLM.  Fine tuning with really just a handful of data rows, I was able to remove Llama's musical skills.
