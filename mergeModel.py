@@ -2,7 +2,7 @@
 #### COMMENT IN TO MERGE PEFT AND BASE MODEL ####
 from peft import AutoPeftModelForCausalLM
 import torch
-output_dir = "./Llama2b"
+output_dir = "./Llama2c"
 # # Load PEFT model on CPU
 model = AutoPeftModelForCausalLM.from_pretrained(
     output_dir,
