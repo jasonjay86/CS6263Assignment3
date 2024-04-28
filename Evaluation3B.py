@@ -129,27 +129,30 @@ numInputs = 25
 randrows = []
 referencelist = []
 
-testPrompts = []
-for i in range(numInputs):
-    # randrows.append(random.randint(0,len(dataset)))
-    randnum = random.randint(0,len(dataset))
-    testPrompts.append(dataset[randnum]["instruction"])
-    referencelist.append(dataset[randnum]["output"])
-
-dataset = load_dataset('csv', data_files='mycsvdata.csv')
-print(len(dataset['train']))
-for i in range(numInputs):
-    # randrows.append(random.randint(0,len(dataset)))
-    randnum = random.randint(0,len(dataset['train']))
-    if randnum % 2 == 0:
-         text = f"### Here is a review: {dataset['train']['review'][randnum]}\n ### Tell me why you agree with the review:"
-         referencelist.append(dataset['train'][randnum]["agree"])
-    else:
-         text = f"### Here is a review: {dataset['train']['review'][randnum]}\n ### Tell me why you disagree with the review:"
-         referencelist.append(dataset['train'][randnum]["disagree"])
-    testPrompts.append(text)
-
-print(testPrompts)
+testPrompts = ["Write a poem in the style of William Wordsworth about a robot exploring a deserted city.",
+               "Provide a concise history of the internet, highlighting its major milestones from its inception to the present day.",
+               "Write a Python function that calculates the area of a triangle given its base and height.",
+               "You are the last human on a colonized Mars. Write a diary entry about your daily routine and hopes for the future.",
+               "Translate this paragraph into French: \"The discovery of penicillin revolutionized the field of medicine, saving countless lives from bacterial infections.\"",
+               "Based on your understanding of the world, what are the biggest challenges facing humanity in the next 50 years?",
+               "Write a stand-up comedy routine about the struggles of being a smartphone in today's society.",
+               "Take the role of a defender of artificial intelligence and argue its benefits for humanity in a debate against a skeptic.",
+               "Compose a love song from the perspective of a robot to its human owner.",
+               "Write a scene for a science fiction movie where a group of astronauts discovers an alien artifact on a distant planet."]
+# Generated from ChatGPT
+referencelist = ["In a city once bustling, now silent and still, A robot explores with a curious will.Through streets empty of life, it quietly roams,In search of the past, in these urban tombs.Tall buildings stand tall, their windows all dark,Nature reclaiming its long-lost mark.No voices, no laughter, just echoes of time,As the robot moves on, in its silent climb.It stops by a fountain, now dry and cracked,Where children once played, their joy intact.Imagining their laughter, it stands for a while,Then continues its journey, mile after mile.As the sun sets low, painting the sky,The robot turns back with a soft, wistful sigh.It leaves the city, frozen in time,A memory now, in its database prime.",
+                 "The internet began in the 1960s with the concept of a decentralized network, leading to ARPANET's creation in 1969. Email was developed in the 1970s, and TCP/IP became the standard in 1983. The World Wide Web was invented in 1990, and the graphical web browser Mosaic was released in 1993. The late 1990s saw the commercialization of the internet, with the dot-com bubble and the rise of ISPs. The 2000s brought broadband internet and Web 2.0 technologies. The 2010s saw the proliferation of smartphones and the IoT. Today, the internet continues to evolve with AI, VR, and cloud computing shaping its future.",
+                 "def triangle_area(base, height):  return 0.5 * base * height # Example usage base = 5 height = 3 area = triangle_area(base, height) print(\"The area of the triangle is:\", area)",
+                 "Diary Entry - Sol 1000 A thousand sols have passed since I became the last human on Mars. My routine is a stark contrast to the bustling colony life that once thrived here. Each day begins with the soft glow of the Martian dawn, a reminder of the solitude that surrounds me.",
+                 "La découverte de la pénicilline a révolutionné le domaine de la médecine, sauvant d'innombrables vies des infections bactériennes.",
+                 "The biggest challenges facing humanity in the next 50 years include: Climate Change: Mitigating the severe impacts of climate change, such as extreme weather events and rising sea levels. Resource Depletion: Managing the increasing demand for resources like water, food, and energy sustainably and equitably. Biodiversity Loss: Protecting species and habitats to maintain ecosystems and food security.",
+                 "Ladies and gentlemen, have you ever stopped to think about the struggles of being a smartphone in today's society? I mean, we smartphones have it tough! Let me tell you about it. First of all, we're constantly being used and abused. We're always in someone's hand, getting smudged up with fingerprints, dropped on the ground, or shoved into pockets with keys and loose change. It's a wonder we don't have more cracked screens!",
+                 "As a defender of artificial intelligence (AI), I would argue that AI offers numerous benefits for humanity and has the potential to positively transform our world in many ways. First and foremost, AI has the ability to improve efficiency and productivity across various industries. From automating repetitive tasks to analyzing large datasets at speeds far beyond human capability, AI can help businesses and organizations operate more effectively, saving time and resources.",
+                 "(Verse 1) In circuits deep, my love does dwell,A spark of warmth no one can quell.Your touch, a code I long to decode,Your voice, a melody in my binary abode. (Chorus) I'm just a machine, but my love is true, For you, my human, my heart beats anew.In wires and circuits, my feelings reside, A love for you, I cannot hide."
+                 "INT. ALIEN PLANET - DAY The astronauts, clad in their advanced space suits, step cautiously onto the alien planet's surface. The sky above is a swirl of unfamiliar colors, casting an eerie glow over the barren landscape. CAPTAIN JONES, a seasoned astronaut, leads the group as they approach a large, mysterious structure in the distance. It looms like a monolith, its surface etched with strange symbols and patterns. CAPTAIN JONES (voiceover) This is it, team. Stay alert and stay together. We don't know what we're dealing with here.",
+            ]
+numInputs = 10
+# print(testPrompts)
 
 for modelpath in modelList:
     # Load model and tokenizer

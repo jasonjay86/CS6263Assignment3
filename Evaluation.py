@@ -22,7 +22,7 @@ def getOutput(tokenizer,model,testPrompt,hparam,size=0):
     input = input.to('cuda')
     if hparam == "vanilla":
         # Generate output using vanilla decoding
-        outputs = model.generate(input, max_length = 450)
+        outputs = model.generate(input, max_length = 1000)
     elif hparam == "topK":
         # Generate output using top-K sampling
         outputs = model.generate(input,
@@ -63,7 +63,7 @@ def getOutput(tokenizer,model,testPrompt,hparam,size=0):
         outputs = model._dola_decoding(
             input,
             dola_layers=[size],
-            max_length = 450,
+            max_length = 1000,
             repetition_penalty=1.2,
             logits_processor=logits_processor,
             logits_warper=logits_warper,
@@ -148,8 +148,8 @@ for i in range(numInputs):
          text = f"### Here is a review: {dataset['train']['review'][randnum]}\n ### Tell me why you disagree with the review:"
          referencelist.append(dataset['train'][randnum]["disagree"])
     testPrompts.append(text)
-
-print(testPrompts)
+numInputs = 50
+# print(testPrompts)
 
 for modelpath in modelList:
     # Load model and tokenizer
