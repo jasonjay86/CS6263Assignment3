@@ -212,7 +212,7 @@ for modelpath in modelList:
             for i in range(numHumanEval):
                 print("Instruction " + str(i))
                 
-                print(dataset[i]["instruction"])
+                print(testPrompts[i])
                 print("***")
                 print(str(modelpath) + " output:")
                 print(predictionlist[i])
