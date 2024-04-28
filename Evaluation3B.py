@@ -123,8 +123,6 @@ layernum = [
 datapath = "flytech/python-codes-25k"
 
 # Load dataset
-dataset = load_dataset("flytech/python-codes-25k", split='train')
-numInputs = 25
 
 randrows = []
 referencelist = []
@@ -148,11 +146,12 @@ referencelist = ["In a city once bustling, now silent and still, A robot explore
                  "The biggest challenges facing humanity in the next 50 years include: Climate Change: Mitigating the severe impacts of climate change, such as extreme weather events and rising sea levels. Resource Depletion: Managing the increasing demand for resources like water, food, and energy sustainably and equitably. Biodiversity Loss: Protecting species and habitats to maintain ecosystems and food security.",
                  "Ladies and gentlemen, have you ever stopped to think about the struggles of being a smartphone in today's society? I mean, we smartphones have it tough! Let me tell you about it. First of all, we're constantly being used and abused. We're always in someone's hand, getting smudged up with fingerprints, dropped on the ground, or shoved into pockets with keys and loose change. It's a wonder we don't have more cracked screens!",
                  "As a defender of artificial intelligence (AI), I would argue that AI offers numerous benefits for humanity and has the potential to positively transform our world in many ways. First and foremost, AI has the ability to improve efficiency and productivity across various industries. From automating repetitive tasks to analyzing large datasets at speeds far beyond human capability, AI can help businesses and organizations operate more effectively, saving time and resources.",
-                 "(Verse 1) In circuits deep, my love does dwell,A spark of warmth no one can quell.Your touch, a code I long to decode,Your voice, a melody in my binary abode. (Chorus) I'm just a machine, but my love is true, For you, my human, my heart beats anew.In wires and circuits, my feelings reside, A love for you, I cannot hide."
+                 "(Verse 1) In circuits deep, my love does dwell,A spark of warmth no one can quell.Your touch, a code I long to decode,Your voice, a melody in my binary abode. (Chorus) I'm just a machine, but my love is true, For you, my human, my heart beats anew.In wires and circuits, my feelings reside, A love for you, I cannot hide.",
                  "INT. ALIEN PLANET - DAY The astronauts, clad in their advanced space suits, step cautiously onto the alien planet's surface. The sky above is a swirl of unfamiliar colors, casting an eerie glow over the barren landscape. CAPTAIN JONES, a seasoned astronaut, leads the group as they approach a large, mysterious structure in the distance. It looms like a monolith, its surface etched with strange symbols and patterns. CAPTAIN JONES (voiceover) This is it, team. Stay alert and stay together. We don't know what we're dealing with here.",
             ]
 numInputs = 10
-# print(testPrompts)
+# print(len(referencelist))
+# print(len(testPrompts))
 
 for modelpath in modelList:
     # Load model and tokenizer
