@@ -19,6 +19,7 @@ from accelerate import Accelerator
 
 import json
 
+#formatting function for SFTrainer
 def formatting_prompts_func(example):
     output_texts = []
     for i in range(len(example['review'])):

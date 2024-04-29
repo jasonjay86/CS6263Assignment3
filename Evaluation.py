@@ -130,12 +130,14 @@ randrows = []
 referencelist = []
 
 testPrompts = []
+# making an evaluation dataset with half python codes
 for i in range(numInputs):
     # randrows.append(random.randint(0,len(dataset)))
     randnum = random.randint(0,len(dataset))
     testPrompts.append(dataset[randnum]["instruction"])
     referencelist.append(dataset[randnum]["output"])
 
+# and half with my dataset
 dataset = load_dataset('csv', data_files='mycsvdata.csv')
 print(len(dataset['train']))
 for i in range(numInputs):
