@@ -19,6 +19,12 @@ In order to run inferences for the various layer outputs on the model run:
 
 ## Assignment Discussion
 
+**3a.) Evaluate the saved model from 2.b and 2.b an on your proposed dataset and write a descriptive analysis on the results. Create a table like the sample table provided.**
+
+![image](https://github.com/jasonjay86/CS6263Assignment3/assets/65077765/81ce998f-3c01-401d-892a-25c72ebb7346)
+
+Unfortunately, my dataset seems to ruin the model.  Especially for code.  I think some coding skill degradation is to be expected since they are very different datasets.  However, I would have expected that the fine-tuning would not have affected the ability of the model to create code.  Not so!  Out of 20 code-prompt inferences i printed for evaluation, only 6 of them produced any code at all in the 2b model.  Most of the rest are gibberish.  The code it did produce was not very good. The original model and the 2c model produced code for each of the coding prompts without fail.  So for 2b, the CodeBLEU score was ruined.  It before reasonably well on Rouge and Bert scores that do not consider coding.
+
 **3b.) Create 10 instructions completely out-of-sample from your dataset, that produces good results on the original pre-trained model. Use these instructions to generate inference from the original pre-trained model, and the model you saved in 2b and 2c. Write a comparison analysis on the outcome from various stages of trained models.**
 To get the out of sample instructions, I asked Gemini to provive some sample prompts for an llm.  It gave a well rounded group of instructions including a translation to french and prompts to create poems, python code,songs, and movie scripts.
 
