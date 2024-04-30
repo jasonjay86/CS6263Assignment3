@@ -103,7 +103,7 @@ The musical talent is back!
 
 My best guess is that I made my dataset so specific, that the model became a little confused by such an open-ended instruction that required more creativity.  The original dataset was:
 
-  **1)** Much, much, bigger(25K rows vs a little more than 200 rows)
+  **1)** Much, much, bigger(25K rows vs a little more than 400 rows)
   
   **2)** Much more varied.  Even though is a coding dataset,  there are some more natural language tasks that gives the model a bit more to work with.  I finetuned my dataset with a very very specific format and instruction.
 
