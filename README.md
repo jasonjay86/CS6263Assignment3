@@ -9,7 +9,7 @@ prompt = prompt + "///output the response in json format with values for review,
 ```
 This is done in the `createDataset.py` file.  GPT 3.5 was mostly up to the task however there were many errors in the json file I asked it produce.  That file is `mydata.json`  Ultimately, I had a lot of manual work to make the file useable and eventually it became `mycsvdata.csv`.  Unfortunately, it also ended up only being about 400 rows.
 
-With that data, I finetuned against a model pretrained by...me...in the previous assignment. I took the Llama model that I finetuned and then finetuned it further with my new imdb dataset and then finetuned it again with the original data.  The 2 rounds of finetuning was done in `trainLlama2B.py` and `trainLlama2C.py`
+With that data, I finetuned against a model pretrained by...me...in the previous assignment. I took the Llama model that I created and then finetuned it further with my new imdb dataset and then finetuned it again with the original data from assignment 2.  The 2 rounds of finetuning was done in `trainLlama2B.py` and `trainLlama2C.py`
 
 From there, I ran my evaluation code, `Evaluation.py` and `Evaluation3B.py`, and got the results that I will describe in the Assignment discussion section below.
 
