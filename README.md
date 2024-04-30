@@ -1,6 +1,18 @@
 # CS6263 Assignment3 - Instruction-Based Dataset Generation and Model Fine-Tuning in LLMs
 
 **Objective**: The objective of this assignment is to explore the process of generating an instruction-based dataset for model training in Natural Language Processing (NLP). Additionally, students will fine-tune a pre-trained model using the newly created instruction-based dataset and compare its performance with the original instructions. Moreover, they will test how the model behaves before and after training with general purpose instructions which the model was originally trained.
+
+**My Summary**:  I begun the assignment by building my data set. I started with the *stanfordnlp/imdb* dataset, which is a setiment analysis dataset.  I took the text from that dataset and prompted gpt 3.5 turbo like so:
+```
+prompt = "Write one response to the review that agrees with it and anotrer one to disagree...." + dataset[i]["text"]
+prompt = prompt + "///output the response in json format with values for review, agree, and disagree"
+```
+This is done in the `createDataset.py` file.  GPT 3.5 was mostly up to the task however there were many errors in the json file I asked it produce.  That file is `mydata.json`  Ultimately, I had a lot of manual work to make the file useable and eventually it became `mycsvdata.csv`.  Unfortunately, it also ended up only being about 400 rows.
+
+With that data, I finetuned against a model pretrained by...me...in the previous assignment. I took the Llama model that I finetuned and then finetuned it further with my new imdb dataset and then finetuned it again with the original data.  The 2 rounds of finetuning was done in `trainLlama2B.py` and `trainLlama2C.py`
+
+From there, I ran my evaluation code, `Evaluation.py` and `Evaluation3B.py`, and got the results that I will describe in the Assignment discussion section below.
+
 ## Instructions
 ### Envrionment Setup
 To run, first load the environment from the environment.yml file with:
@@ -11,9 +23,17 @@ Then activate it:
 
 `conda activate assignment2`
 
+I used the same environment as the previous assignment
+
+### Fine Tuning
+
+To run the fine tuning run:
+
+`python trainLlama2B.py` or `python trainLlama2C.py`
+
 ### Execution
 
-In order to run inferences for the various layer outputs on the model run:
+In order to run inferences for the models run:
 
 `python Evaluation.py` or `python Evaluation3B.py`
 
